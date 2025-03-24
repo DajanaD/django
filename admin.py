@@ -35,7 +35,7 @@ class MultipleFileField(forms.FileField):
 
     def clean(self, data, initial=None):
         """
-        Обробка кількох файлів.
+        Processing multiple files.
         """
         single_file_clean = super().clean
         if isinstance(data, (list, tuple)):
