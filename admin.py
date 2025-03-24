@@ -20,14 +20,14 @@ from django.utils.text import slugify
 
 class MultipleFileInput(forms.ClearableFileInput):
     """
-    Файловий віджет, який дозволяє завантажувати декілька файлів.
+   A file widget that allows you to edit multiple files.
     """
     allow_multiple_selected = True
 
 
 class MultipleFileField(forms.FileField):
     """
-    Поле для завантаження декількох файлів.
+    Field for importing multiple files.
     """
     def __init__(self, *args, **kwargs):
         kwargs.setdefault("widget", MultipleFileInput())
