@@ -1,0 +1,74 @@
+{% extends "admin/change_list.html" %}
+{% load static i18n %}
+
+{% block content %}
+<style>
+    .gallery-view img {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 8px;
+        display: block;
+    }
+    .gallery-view {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+    .gallery-view div {
+        text-align: center;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background: #f9f9f9;
+    }
+    .view-toggle {
+        margin-bottom: 15px;
+    }
+    .view-toggle .button {
+        padding: 10px 15px;
+        background-color: #007bff;
+        color: white;
+        border-radius: 5px;
+        text-decoration: none;
+        margin-right: 10px;
+    }
+    .view-toggle .button:hover {
+        background-color: #0056b3;
+    }
+</style>
+
+<!-- View toggle buttons -->
+<div class="view-toggle">
+    <a href="{{ request.path }}?view={% if view_mode == 'grid' %}list{% else %}grid{% endif %}" class="button">
+        {% if view_mode == "grid" %}{% trans 'Switch to list view' %}{% else %}{% trans 'Switch to grid view' %}{% endif %}
+    </a>
+</div>
+
+{% if view_mode == "grid" %}
+    <div class="gallery-view">
+        {% for obj in cl.result_list %}
+            <div>
+                <a href="{{ obj.pk }}/change/">
+                    {% if obj.image %}
+                        <img src="{{ obj.image.url }}" alt="{{ obj.name }}">
+                    {% else %}
+                        <p>{% trans 'No image' %}</p>
+                    {% endif %}
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    {{ block.super }}
+{% endif %}
+{% endblock %}
+
+{% block object-tools-items %}
+    <li>
+        <a href="bulk-upload/" class="addlink">
+            {% trans 'Bulk Upload Images' %}
+        </a>
+    </li>
+    {{ block.super }}
+{% endblock %}
